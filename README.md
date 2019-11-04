@@ -1,5 +1,4 @@
-# ElasticSearch+Spark
-  构建高匹配度搜索服务+千人千面推荐系统
+# ElasticSearch+Spark  构建高匹配度搜索服务+千人千面推荐系统
 ## 🔧环境参数介绍：
 - 后端业务: Java 1.8、SpringBoot 2.1.5
 - 后端存储: mysq|数据库 5.6、mybatis
