@@ -17,8 +17,9 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     @ResponseBody
+    //1、请求对象不存在 2、路径错误 3、请求参数错误 4、未知错误
     public CommonRes doError(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Exception ex){
-        if (ex instanceof BusinessException) {
+        if (ex instanceof BusinessException) {//
             return CommonRes.create(((BusinessException)ex).getCommonError(),"fail");
         } else if (ex instanceof NoHandlerFoundException){
             CommonError commonError = new CommonError(EmBusinessError.NO_HANDLER_FOUND);

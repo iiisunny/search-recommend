@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * @anthor iiisunny on 2019/11/16
@@ -26,6 +27,15 @@ public class UserController {
     @ResponseBody
     public String test(){
         return "SpringBoot 项目启动测试";
+    }
+
+
+    @RequestMapping("/index")
+    public ModelAndView index(){
+        String userName = "iiisunny";
+        ModelAndView modelAndView = new ModelAndView("/index.html");
+        modelAndView.addObject("name",userName);
+        return modelAndView;
     }
 
     @RequestMapping("/get")
