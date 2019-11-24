@@ -1,6 +1,7 @@
 package com.iiisunny.dianping.dal;
 
 import com.iiisunny.dianping.model.UserModel;
+import org.apache.ibatis.annotations.Param;
 
 public interface UserModelMapper {
 
@@ -11,6 +12,8 @@ public interface UserModelMapper {
     int insertSelective(UserModel record);
 
     UserModel selectByPrimaryKey(Integer id);
+
+    UserModel selectByTelphoneAndPassword(@Param("telphone") String telphone, @Param("password") String password);
 
     int updateByPrimaryKeySelective(UserModel record);
 

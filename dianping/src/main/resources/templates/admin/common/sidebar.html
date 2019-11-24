@@ -1,0 +1,36 @@
+<!-- BEGIN SIDEBAR -->
+<div class="page-sidebar-wrapper" th:fragment="sidebar">
+    <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
+    <!-- DOC: Change data-auto-speed="200" to adjust the sub menu slide up/down speed -->
+    <div class="page-sidebar navbar-collapse collapse">
+        <!-- BEGIN SIDEBAR MENU -->
+        <ul class="page-sidebar-menu" data-auto-scroll="false" data-auto-speed="200" id="sidebar-container">
+            <!-- DOC: To remove the sidebar toggler from the sidebar you just need to completely remove the below "sidebar-toggler-wrapper" LI element -->
+            <li class="sidebar-toggler-wrapper" style="margin-bottom:12px;">
+                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+                <div class="sidebar-toggler">
+                </div>
+                <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+            </li>
+
+            <li  th:class="(${CONTROLLER_NAME}=='admin' and ${ACTION_NAME}=='index')?'active open':''">
+                <a  href="/admin/admin/index"><i class="fa fa-flag"></i><span class="title">首页</span><span class="arrow"></span></a>
+            </li>
+
+            <li th:class="(${CONTROLLER_NAME}=='seller' )?'active open':''">
+                <a  href="/admin/seller/index"><i class="fa fa-flag"></i><span class="title">商户查询</span><span class="arrow"></span></a>
+            </li>
+<!--
+<li th:class="(${CONTROLLER_NAME}=='category' )?'active open':''">
+    <a  href="/admin/category/index"><i class="fa fa-flag"></i><span class="title">品类查询</span><span class="arrow"></span></a>
+</li>
+
+<li th:class="(${CONTROLLER_NAME}=='shop')?'active open':''">
+    <a  href="/admin/shop/index"><i class="fa fa-flag"></i><span class="title">门店服务</span><span class="arrow"></span></a>
+</li>
+-->
+        </ul>
+        <!-- END SIDEBAR MENU -->
+    </div>
+</div>
+<!-- END SIDEBAR -->

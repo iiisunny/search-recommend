@@ -1,8 +1,9 @@
 package com.iiisunny.dianping.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserModel {
+public class UserModel implements Serializable {
 
     private Integer id;
 

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<!--
+Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.1.1
+Version: 2.0.2
+Author: KeenThemes
+Website: http://www.keenthemes.com/
+Contact: support@keenthemes.com
+Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-template/4021469?ref=keenthemes
+License: You must have a valid license purchased only from themeforest(the above link) in order to legally use the theme for your project.
+-->
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en" class="no-js" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--<![endif]-->
+<!-- BEGIN HEAD -->
+<head>
+    <meta charset="utf-8"/>
+    <title>运营后台</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="" name="description"/>
+    <meta content="" name="author"/>
+    <!-- BEGIN GLOBAL MANDATORY STYLES -->
+    <link href="/static/assets/global/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/assets/global/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/assets/global/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+    <!-- END GLOBAL MANDATORY STYLES -->
+    <!-- BEGIN PAGE LEVEL PLUGIN STYLES -->
+    <link href="/static/assets/global/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/assets/global/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/assets/global/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
+    <!-- END PAGE LEVEL PLUGIN STYLES -->
+    <!-- BEGIN PAGE STYLES -->
+    <link href="/static/assets/admin/pages/css/tasks.css" rel="stylesheet" type="text/css"/>
+    <!-- END PAGE STYLES -->
+    <!-- BEGIN THEME STYLES -->
+    <link href="/static/assets/global/css/components.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/assets/global/css/plugins.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/assets/admin/layout/css/layout.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/assets/admin/layout/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+    <link href="/static/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
+    <link href="/static/assets/admin/pages/css/search.css" rel="stylesheet" type="text/css"/>
+    <!-- END THEME STYLES -->
+    <link rel="shortcut icon" href="/static/favicon.ico"/>
+    <style type="text/css">
+        .userAvatat{
+            width:32px;
+            height: 32px;
+        }
+
+    </style>
+
+</head>
+
+
+
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<!-- DOC: Apply "page-header-fixed-mobile" and "page-footer-fixed-mobile" class to body element to force fixed header or footer in mobile devices -->
+<!-- DOC: Apply "page-sidebar-closed" class to the body and "page-sidebar-menu-closed" class to the sidebar menu element to hide the sidebar by default -->
+<!-- DOC: Apply "page-sidebar-hide" class to the body to make the sidebar completely hidden on toggle -->
+<!-- DOC: Apply "page-sidebar-closed-hide-logo" class to the body element to make the logo hidden on sidebar toggle -->
+<!-- DOC: Apply "page-sidebar-hide" class to body element to completely hide the sidebar on sidebar toggle -->
+<!-- DOC: Apply "page-sidebar-fixed" class to have fixed sidebar -->
+<!-- DOC: Apply "page-footer-fixed" class to the body element to have fixed footer -->
+<!-- DOC: Apply "page-sidebar-reversed" class to put the sidebar on the right side -->
+<!-- DOC: Apply "page-full-width" class to the body element to have full width page without the sidebar menu -->
+<body class="page-header-fixed ">
+
+<header th:replace="admin/common/header :: header"></header>
+<div class="clearfix">
+</div>
+<!-- BEGIN CONTAINER -->
+<div class="page-container">
+    <div th:replace="admin/common/sidebar :: sidebar"></div>
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+        <div class="page-content">
+            <h3 class="page-title">
+                商家管理
+            </h3>
+            <div class="row" style="margin:20px 0 20px 0;">
+                <button type="button" class="btn green add">添加商家&nbsp;<i class="m-icon-swapright m-icon-white"></i></button>
+            </div>
+
+            <!-- END PAGE TITLE & BREADCRUMB-->
+            <div class="row">
+                <div class="portlet box blue">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="fa fa-cogs"></i>商家列表
+                        </div>
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                <tr>
+                                    <th>id</th>
+                                    <th>商家名</th>
+                                    <th>评分</th>
+                                    <th>是否禁用</th>
+                                    <th>操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="seller:${data.list}">
+                                    <td th:text="${seller.id}"></td>
+                                    <td th:text="${seller.name}"></td>
+                                    <td th:text="${seller.remarkScore}"></td>
+                                    <td th:text="${seller.disabledFlag}"></td>
+                                    <td>
+                                        <a th:style="(${seller.disabledFlag}==0) ?'display:none'" href="#"  th:id="'up'+${seller.id}"  th:attr="data-id=${seller.id}" class="btn default btn-xs blue">启用</a>
+                                        <a th:style="(${seller.disabledFlag}==1) ?'display:none'" href="#"  th:id="'down'+${seller.id}" th:attr="data-id=${seller.id}" class="btn default btn-xs red">禁用</a>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <ul id="page-container" class="pagination"></ul>
+                </div>
+            </div>
+        </div>
+        <!-- END PAGE CONTENT-->
+    </div>
+</div>
+<!-- END CONTENT -->
+</div>
+<!-- END CONTAINER -->
+<footer th:replace="admin/common/footer :: footer"></footer>
+<!-- BEGIN JAVASCRIPTS(Load javascripts at bottom, this will reduce page load time) -->
+<!-- BEGIN CORE PLUGINS -->
+<!--[if lt IE 9]>
+<script src="/static/assets/global/plugins/respond.min.js"></script>
+<script src="/static/assets/global/plugins/excanvas.min.js"></script>
+<![endif]-->
+<script src="/static/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
+<!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
+<script src="/static/assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/bootstrap-hover-dropdown/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jquery.blockui.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jquery.cokie.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
+<!-- END CORE PLUGINS -->
+<!-- BEGIN PAGE LEVEL PLUGINS -->
+<script src="/static/assets/global/plugins/jqvmap/jqvmap/jquery.vmap.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/flot/jquery.flot.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/flot/jquery.flot.resize.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
+<!-- IMPORTANT! fullcalendar depends on jquery-ui-1.10.3.custom.min.js for drag & drop support -->
+<script src="/static/assets/global/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
+<script src="/static/assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL PLUGINS -->
+<!-- BEGIN PAGE LEVEL SCRIPTS -->
+<script src="/static/assets/admin/pages/scripts/sidebarGeneration.js" type="text/javascript"></script>
+<script src="/static/assets/global/scripts/metronic.js" type="text/javascript"></script>
+<script src="/static/assets/global/scripts/pagination.js" type="text/javascript"></script>
+<script src="/static/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
+<script src="/static/assets/admin/pages/scripts/index.js" type="text/javascript"></script>
+<script src="/static/assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
+<!-- END PAGE LEVEL SCRIPTS -->
+<script th:inline="javascript">
+
+    jQuery(document).ready(function() {
+        Metronic.init(); // init metronic core componets
+        Layout.init(); // init layout
+        Index.init();
+        var baseUrl = "/admin/seller/index?page="
+        setUrl(baseUrl);
+        var totalSize = /*[[${data.total}]]*/;
+        var countPerPage = /*[[${data.pageSize}]]*/;
+        var currentPage = /*[[${data.pageNum}]]*/;
+        var allPage = /*[[${data.pages}]]*/;
+        setPage(document.getElementById("page-container"),allPage,currentPage);
+        if(allPage <= 1){
+            $("#page-container").hide();
+        }
+
+        $(".add").on("click", function(){
+            window.location.href = "/admin/seller/createpage";
+        });
+
+
+        $("a[id^='up']").on('click',function(){
+            var res = window.confirm("确认要启用商户吗?");
+            if(!res){
+                return;
+            }
+            var id = $(this).data("id");
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : "/admin/seller/up",
+                data: {
+                    "id": id,
+                },
+                success : function(data){
+                    if(data.status == 'success'){
+                        alert("启用商户成功");
+                        window.location.href = "/admin/seller/index";
+                    }else{
+                        alert("启用商户失败，原因为"+data.data.errMsg);
+                    }
+                },
+                error : function(data){
+                    alert("启用商户失败，原因为"+data.responseText);
+                }
+            });
+        });
+
+
+
+        $("a[id^='down']").on('click',function(){
+            var res = window.confirm("确认要禁用商户吗?");
+            if(!res){
+                return;
+            }
+            var id = $(this).data("id");
+            $.ajax({
+                type : "POST",
+                contentType : "application/x-www-form-urlencoded",
+                url : "/admin/seller/down",
+                data: {
+                    "id": id,
+                },
+                success : function(data){
+                    if(data.status == 'success'){
+                        alert("禁用商户成功");
+                        window.location.href = "/admin/seller/index";
+                    }else{
+                        alert("禁用商户失败，原因为"+data.data.errMsg);
+                    }
+                },
+                error : function(data){
+                    alert("禁用商户失败，原因为"+data.responseText);
+                }
+            });
+        });
+
+    });
+</script>
+<!-- END JAVASCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

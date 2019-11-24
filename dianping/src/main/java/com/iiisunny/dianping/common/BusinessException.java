@@ -11,6 +11,14 @@ public class BusinessException extends Exception {
         this.commonError = new CommonError(emBusinessError);
     }
 
+    public BusinessException(EmBusinessError emBusinessError,String errMsg){
+        super();
+        this.commonError = new CommonError(emBusinessError);
+        //上游传下来的errmsg做替换
+        this.commonError.setErrMsg(errMsg);
+    }
+
+
     public CommonError getCommonError() {
         return commonError;
     }

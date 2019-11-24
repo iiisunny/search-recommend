@@ -1,0 +1,190 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>点评</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" />
+    <style>
+
+        /* 头部样式 */
+        #firstHeader {background-color: #FF8400;}
+        .topbar {/*background: #FF8400;*/ height:50px; border-bottom: 1px solid #DDDFE3;}
+        .topbar_title {display: inline-block;font-size: 20px; line-height: 50px;padding-left: 12px;}
+        .hr01, .hr02 {height: 28px;}
+        .headerico {padding: 11px 15px 11px 15px;}
+        .headericohover {background: #DADDE0;}
+        .fr{float: right;}
+        .fl{float: left;}
+
+        /*第一头部*/
+        #logo {padding: 11px 0 0 10px;height: 28px;}
+        #citylist {height: 50px; line-height: 50px;padding-left: 15px; font-size: 18px; color: #fff;}
+        .citylistarrow {vertical-align: top; width: 20px; padding-top: 15px;}
+        .search {height: 34px;line-height: 34px; padding-left: 10px; border-radius: 30px;  margin-top: 8px; position: absolute; left: 20px; right: 60px;font-size: 14px;}
+        .search img {vertical-align: top; width: 20px; padding-top: 7px;padding-right: 10px;}
+        .firstSearch {left: 90px;right: 60px;background-color: #FA6604;color: #FDC29B;}
+
+        /* 第二头部 */
+        #topbar_refresh {width: 40px;padding:5px 10px;}
+        .whitebar {background-color: #fcfcfc;}
+        #whitecity {height: 50px; line-height: 50px;padding-left: 15px; font-size: 18px;color: #FF8400;}
+        .secCitylistarrow {vertical-align: top; width: 15px; padding-top: 18px;padding-left: 5px;}
+        .secSearch {left: 90px;right: 15px;background-color: #E8E8E8;color: #999;}
+
+        /* 第三头部 */
+        .swipepic {padding: 5px 15px 2px 15px;height: 23px;}
+        .swipe div {font-size: 12px; text-align: center;color: #999;}
+        .thrSearch {left: 15px;right: 60px;background-color: #E8E8E8;color: #999;}
+
+        /* 头部切换样式 */
+        .titlebar {display: none;}
+        .activebar {display: block;}
+
+        /* 底部切换按钮样式 */
+        ul {display: -webkit-box; display: -webkit-flex; display: flex; }
+        #footer {height: 61px; line-height: 60px; background-color: #FAFAFA;border-top: 1px solid #FAFAFA; }
+        #footer li{-webkit-box-flex: 1; -webkit-flex: 1; flex:1; height: 60px;}
+
+        /* 选项卡样式 */
+        .scrollbar {display: -webkit-box;display: -webkit-flex; text-align: center; height: 40px; line-height: 40px;background: #EBECF0;font-size: 12px;position: relative;}
+        .col1 {-webkit-box-flex:1;-webkit-flex: 1;flex:1;color: #909090;}
+        .indexbar {position: absolute;/*background: #0fc;*/width: 50%;height: 5px;left: 0px;bottom: 0px;-webkit-transition: 300ms;}
+        .redbox {background: #DB4646;width: 40px;height: 5px;position: relative;left: auto;right: auto; margin-left: auto; margin-right: auto;}
+
+        /********************/
+        /* 底部按钮原始样式 */
+        /********************/
+        .bbtn01 {background: url(./image/main_index_home_normal.png) no-repeat center 4px; }
+        .bbtn02 {background: url(./image/main_index_tuan_normal.png) no-repeat center 4px; }
+        .bbtn03 {background: url(./image/main_index_search_normal.png) no-repeat center 4px; }
+        .bbtn04 {background: url(./image/main_index_my_normal.png) no-repeat center 4px; }
+        .bottom_btn {width: 99%; height: 43px;padding-top: 18px;background-position-y: 4px; background-size: 30px;  font-size: 12px; color: #A5A5A5;}
+
+        /* 底部按钮激活样式 */
+        .activebtn0 {background: url(./image/main_index_home_pressed.png) no-repeat center 4px; }
+        .activebtn1 {background: url(./image/main_index_tuan_pressed.png) no-repeat center 4px; }
+        .activebtn2 {background: url(./image/main_index_search_pressed.png) no-repeat center 4px; }
+        .activebtn3 {background: url(./image/main_index_my_pressed.png) no-repeat center 4px; }
+        .activebtn {color:#FF7419; background-size: 30px; }
+        .bottomhover {background-color: #46494B;}
+
+        /* 本地刷新图标 */
+        #localrefresh {display:none;float: right; width: 40px; padding: 5px 10px;}
+
+        input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+            color: #E1E1E1;
+        }
+        input:-moz-placeholder, textarea:-moz-placeholder {
+            color: #E1E1E1;
+        }
+        input::-moz-placeholder, textarea::-moz-placeholder {
+            color: #E1E1E1;
+        }
+        input:-ms-input-placeholder, textarea:-ms-input-placeholder {
+            color: #E1E1E1;
+        }
+
+    </style>
+</head>
+<body>
+<div id="wrap">
+    <!-- 第一头部 -->
+    <div id="firstHeader" class="titlebar activebar">
+        <div class="topbar">
+            <span style="text-align:center;display:block;color:white;font-size:20px;padding-top:10px;">登录</span>
+
+        </div>
+    </div>
+
+
+    <div id="main" style="padding:50px;">
+        <form class="login-form">
+            <div class="form-group">
+                <label class="control-label">手机号</label>
+                <div class="input-icon">
+                    <input class="form-control placeholder-no-fix" type="text" autocomplete="off" placeholder="输入手机号" name="telphone" id="telphone"/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">密码</label>
+                <div class="input-icon">
+                    <input class="form-control placeholder-no-fix" type="password" autocomplete="off" placeholder="密码" name="password" id="password"/>
+                </div>
+            </div>
+            <div class="form-actions" style="text-align:center;padding-top:20px;">
+                <button id="loginBtn" type="submit" class="btn btn-warning" style="width:200px;">
+                    登陆
+                </button>
+            </div>
+
+            <div class="form-actions" style="text-align:center;padding-top:20px;">
+                <button id="registerBtn" type="submit" class="btn btn-warning"  style="width:200px;">
+                    注册
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <div id="footer">
+        <ul>
+            <li tapmode="activebtn0 activebtn">
+                <a class="bottom_btn bbtn01 weixin activebtn activebtn0"  href="/static/index.html">首页</a>
+            </li>
+
+            <li tapmode="activebtn1 activebtn">
+                <a class="bottom_btn bbtn02 communicate">团购</a>
+            </li>
+
+            <li tapmode="activebtn2 activebtn">
+                <a class="bottom_btn bbtn03 discover">发现</a>
+            </li>
+
+            <li tapmode="activebtn3 activebtn">
+                <a class="bottom_btn bbtn04 home">我的</a>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+<script type="text/javascript" src="/static/script/api.js"></script>
+<script type="text/javascript" src="/static/script/jquery.min.js"></script>
+<script type="text/javascript" src="/static/script/bootstrap.js"></script>
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        $("#registerBtn").on("click",function(){
+            window.location.href="/static/register.html";
+            return false;
+        });
+
+        $("#loginBtn").on("click",function(){
+            var telphone=$("#telphone").val();
+            var password=$("#password").val();
+
+            $.ajax({
+                type:"POST",
+                contentType:"application/json;charset=utf-8",
+                url:"/user/login",
+                data:JSON.stringify({
+                    "telphone":telphone,
+                    "password":password
+                }),
+                success:function(data){
+                    if(data.status == "success"){
+                        window.location.href="/static/index.html";
+                    }else{
+                        alert("请求失败,原因为"+data.data.errMsg);
+                    }
+                },
+                error:function(data){
+                    alert("网络请求失败，原因为"+data.responseText);
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</html>
