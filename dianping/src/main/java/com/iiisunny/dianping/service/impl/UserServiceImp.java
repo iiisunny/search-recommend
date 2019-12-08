@@ -1,5 +1,6 @@
 package com.iiisunny.dianping.service.impl;
 
+
 import com.iiisunny.dianping.common.BusinessException;
 import com.iiisunny.dianping.common.EmBusinessError;
 import com.iiisunny.dianping.dal.UserModelMapper;
@@ -54,6 +55,11 @@ public class UserServiceImp implements UserService {
             throw new BusinessException(EmBusinessError.LOGIN_FAIL);
         }
         return userModel;
+    }
+
+    @Override
+    public Integer countAllUser() {
+        return userModelMapper.countAllUser();
     }
 
 

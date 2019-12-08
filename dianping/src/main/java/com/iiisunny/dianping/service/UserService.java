@@ -20,4 +20,7 @@ public interface UserService {
 
     //登录相关
     UserModel login(String telphone,String password) throws UnsupportedEncodingException, NoSuchAlgorithmException, BusinessException;
+
+    //所用商家的注册数量
+    Integer countAllUser();
 }

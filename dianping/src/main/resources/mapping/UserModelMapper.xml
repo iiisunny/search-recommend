@@ -160,4 +160,10 @@
     <include refid="Base_Column_List"/>
     from user where telphone=#{telphone} and password = #{password}
   </select>
+
+  <select id="countAllUser" resultType="java.lang.Integer">
+    SELECT
+    count(1)
+    from user
+  </select>
 </mapper>
