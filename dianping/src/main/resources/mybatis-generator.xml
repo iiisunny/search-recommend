@@ -36,7 +36,7 @@
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>
         -->
-        <table tableName="user"  domainObjectName="UserModel" enableCountByExample="false"
+        <table tableName="seller"  domainObjectName="SellerModel" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
             <generatedKey column="id" sqlStatement="MySql" identity="true" />

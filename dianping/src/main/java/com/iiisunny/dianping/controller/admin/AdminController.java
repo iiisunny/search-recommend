@@ -42,6 +42,7 @@ public class AdminController {
     public static final String CURRENT_ADMIN_SESSION = "currentAdminSession";
 
 
+    //后台首页
     @RequestMapping("/index")
     @AdminPermission
     public ModelAndView index(){
@@ -52,6 +53,7 @@ public class AdminController {
         return modelAndView;
     }
 
+    //后台登录页
     @RequestMapping("/loginpage")
     public ModelAndView loginpage(){
         ModelAndView modelAndView = new ModelAndView("/admin/admin/login");
@@ -73,6 +75,7 @@ public class AdminController {
         }
 
     }
+    //密码加密
     private String encodeByMd5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         //确认计算方法MD5
         MessageDigest messageDigest = MessageDigest.getInstance("MD5");
