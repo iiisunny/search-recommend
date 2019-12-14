@@ -5,9 +5,11 @@ package com.iiisunny.dianping.request;
  */
 public class PageQuery {
 
+    //默认展示第几页
     private Integer page = 1;
 
-    private Integer size = 20;
+    //每页展示的条数
+    private Integer size = 10;
 
     public Integer getPage() {
         return page;

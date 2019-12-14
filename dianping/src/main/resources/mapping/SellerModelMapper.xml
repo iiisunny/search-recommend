@@ -38,7 +38,7 @@
     select
     <include refid="Base_Column_List" />
     from seller
-    order by ASC
+    order by id ASC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     <!--
