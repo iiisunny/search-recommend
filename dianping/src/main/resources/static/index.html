@@ -201,15 +201,46 @@
     <div id="firstHeader" class="titlebar activebar">
         <div class="topbar">
             <div class="citylist fl" id="citylist" tapmode="">上海<img src="./image/title_home_arrow_down_normal.png" alt="" class="citylistarrow"></div>
+            <input class="search firstSearch" type="text" placeHolder="输入门店名搜索" name="keyword" id="keyword" style="width:250px;outline-width:0px;"/>
+            <input type="hidden" id="longitude" value="" name="longitude"/>
+            <input type="hidden" id="latitude" value="" name="latitude"/>
             <span id="rightTitle" style="font-size:16px;color:white;float:right;padding-top:12px;">登录</span>
         </div>
     </div>
 
 
     <div id="main" style="padding:0px;width:100%;height:100%;border:0px;">
+        <!-- 1. 头部swipe -->
+        <div id='slider' class='swipe'>
+            <div class='swipe-wrap'>
+                <div class="swipe-box">
+                    <div class="sliderow" id="slideRow1">
+                    </div>
+                    <div class="sliderow" id="slideRow2">
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="guesstitle" id="guess">猜你喜欢<img src="/static/image/home_competitive_icon.png" alt=""></div>
+        <div class="home-tuan-list" id="tuanList">
 
+        </div>
 
+        <div class="guesstitle" id="searchTitle" style="font-size:14px;">
+            <p id="resTitle" >搜索结果</p>
+            <div id="extraPadding" style="display:none;">
+                <p>分类过滤</p>
+                <div id="categoryFilter" style="margin-bottom:10px;"></div>
+                <p>排序规则</p>
+                <div id="priceFilter" style="margin-bottom:10px;"></div>
+                <p>标签筛选</p>
+                <div id="tagsFilter" style="margin-bottom:10px;"></div>
+            </div>
+        </div>
+        <div class="home-tuan-list" id="searchList">
+
+        </div>
     </div>
 
     <div id="footer">
@@ -238,13 +269,84 @@
 <script type="text/javascript" src="/static/script/jquery.min.js"></script>
 <script type="text/javascript" src="/static/script/bootstrap.js"></script>
 
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=FqB15cbgf1pzWzum5ajGpTrcfr7b3b90"></script>
 
 <script type="text/javascript">
 
+    var g_orderby = null;
+    var g_categoryFilter = null;
+    var g_tagFilter = null;
+
+    window.onload = function() {
+
+        var slider =
+            Swipe(document.getElementById('slider'), {
+                auto: 1000000,
+                continuous: true,
+                callback: function(pos) {
+                }
+            });
+    }
+
+    getFloat = function (number, n) {
+        n = n ? parseInt(n) : 0;
+        if (n <= 0) return Math.round(number);
+        number = Math.round(number * Math.pow(10, n)) / Math.pow(10, n);
+        return number;
+    };
+
     jQuery(document).ready(function() {
         var g_currentUser = null;
+        $("#searchTitle").hide();
 
+        var geolocation = new BMap.Geolocation();
+        geolocation.getCurrentPosition(function(r){
+            if(this.getStatus() == BMAP_STATUS_SUCCESS){
+                var longitude = r.point.lng;
+                var latitude = r.point.lat;
+                $("#longitude").val(longitude);
+                $("#latitude").val(latitude);
 
+                $.ajax({
+                    type : "GET",
+                    url : "/shop/recommend?longitude="+longitude+"&latitude="+latitude,
+                    success : function(data){
+                        if(data.status == 'success'){
+                            var dataList = data.data;
+                            for(var i = 0; i < dataList.length; i++){
+                                var distance = dataList[i].distance;
+                                var distanceStr = "0m";
+                                if(distance >= 1000){
+                                    distanceStr = getFloat(distance / 1000,1) + " km";
+                                }else{
+                                    distanceStr = distance + " m";
+                                }
+                                var content = $('<a href="" class="item Fix hightitem">'+
+                                    '<div class="cnt">'+
+                                    '<img class="pic" src="'+dataList[i].iconUrl+'"/>'+
+                                    '<div class="wrap">'+
+                                    '<div class="wrap2">'+
+                                    '<div class="content">'+
+                                    '<div class="shopname">'+dataList[i].name+'</div><span class="distance">'+distanceStr+'</span>'+
+                                    '<div class="title">'+dataList[i].tags+'</div>'+
+                                    '<div class="info">'+
+                                    '<span class="symbol">¥</span>'+
+                                    '<span class="price">'+dataList[i].pricePerMan+'</span></div> </div> </div> </div> </div></a>');
+                                $("#tuanList").append(content);
+                            }
+                        }else{
+                            alert("获取门店信息失败，原因为"+data.data.errMsg);
+                        }
+                    },
+                    error : function(data){
+                        alert("获取门店信息失败，原因为"+data.responseText);
+                    }
+                });
+            }
+            else {
+                alert('failed'+this.getStatus());
+            }
+        },{enableHighAccuracy: true});
 
 
 
@@ -254,25 +356,48 @@
             contentType:"application/json;charset=utf-8",
             url:"/user/getcurrentuser",
             success:function(data){
-                  if(data.status == "success"){
-                      if(data.data == null){
-                          g_currentUser = null;
-                      }else{
-                          g_currentUser = data.data;
-                      }
-                      if(g_currentUser == null){
-                          $("#rightTitle").text("登录");
-                      }else{
-                          $("#rightTitle").text("注销");
-                      }
-                  }else{
-                      alert("请求失败,原因为"+data.data.errMsg);
-                  }
+                if(data.status == "success"){
+                    if(data.data == null){
+                        g_currentUser = null;
+                    }else{
+                        g_currentUser = data.data;
+                    }
+                    if(g_currentUser == null){
+                        $("#rightTitle").text("登录");
+                    }else{
+                        $("#rightTitle").text("注销");
+                    }
+                }else{
+                    alert("请求失败,原因为"+data.data.errMsg);
+                }
             },
             error:function(data){
                 alert("网络请求失败，原因为"+data.responseText);
             }
         });
+        $.ajax({
+            type : "GET",
+            url : "/category/list",
+            success : function(data){
+                if(data.status == 'success'){
+                    var dataList = data.data;
+                    for(var i = 0; i < dataList.length; i++){
+                        var content = $('<div class="slidecol"><img src="'+dataList[i].iconUrl+'" alt=""><div class="">'+dataList[i].name+'</div></div>');
+                        if(i <= 3){
+                            $("#slideRow1").append(content);
+                        }else{
+                            $("#slideRow2").append(content);
+                        }
+                    }
+                }else{
+                    alert("获取品类信息失败，原因为"+data.data.errMsg);
+                }
+            },
+            error : function(data){
+                alert("获取品类信息失败，原因为"+data.responseText);
+            }
+        });
+
 
 
         $("#rightTitle").on("click",function(){
@@ -299,6 +424,142 @@
         });
 
 
+        function searchMethod(){
+
+            var orderby = "";
+            var categoryFilter = "";
+            var tagFilter = "";
+
+            var keyword = $("#keyword").val();
+            var longitude = $("#longitude").val();
+            var latitude = $("#latitude").val();
+            if($("#keyword").val() == ""){
+                alert("关键字不能为空");
+                return false;
+            }
+            if(longitude== "" || latitude == "" ){
+                alert("地址位置信息还未获取到，请等待");
+                return false;
+            }
+            if(g_orderby == null){
+                orderby = "";
+            }else{
+                orderby = "&orderby="+g_orderby;
+            }
+
+            if(g_categoryFilter == null){
+                categoryFilter = "";
+            }else{
+                categoryFilter = "&categoryId="+g_categoryFilter;
+            }
+            if(g_tagFilter == null){
+                tagFilter = "";
+            }else{
+                tagFilter = "&tags="+g_tagFilter;
+            }
+            $.ajax({
+                type : "POST",
+                contentType : "application/json; charset=utf-8",
+                url : "/shop/search?keyword="+keyword+"&longitude="+longitude+"&latitude="+latitude+orderby+categoryFilter+tagFilter,
+                success : function(data){
+                    if(data.status == 'success'){
+                        $("#guess").hide();
+                        $("#tuanList").hide();
+                        $("#searchTitle").show();
+                        $("#searchList").show();
+                        $("#searchList").empty();
+                        $("#slider").hide();
+                        var dataList = data.data.shop;
+                        var categoryList = data.data.category;
+                        var tagsList = data.data.tags;
+                        for(var i = 0; i < dataList.length; i++){
+                            var distance = dataList[i].distance;
+                            var distanceStr = "";
+                            if(distance >= 1000){
+                                distanceStr = getFloat(distance / 1000,1) + " km";
+                            }else{
+                                distanceStr = distance + " m";
+                            }
+                            var content = $('<a href="" class="item Fix hightitem">'+
+                                '<div class="cnt">'+
+                                '<img class="pic" src="'+dataList[i].iconUrl+'"/>'+
+                                '<div class="wrap">'+
+                                '<div class="wrap2">'+
+                                '<div class="content">'+
+                                '<div class="shopname">'+dataList[i].name+'</div><span class="distance">'+distanceStr+'</span>'+
+                                '<div class="title">'+dataList[i].tags+'</div>'+
+                                '<div class="info">'+
+                                '<span class="symbol">¥</span>'+
+                                '<span class="price">'+dataList[i].pricePerMan+'</span></div> </div> </div> </div> </div></a>');
+                            $("#searchList").append(content);
+                        }
+                        $("#categoryFilter").empty();
+                        var categoryTag = $("<span class='bubble' data-id='"+0+"' id='category"+0+"'>全部</span>");
+                        $("#categoryFilter").append(categoryTag);
+                        for(var i = 0; i < categoryList.length; i++){
+                            var categoryTag = $("<span class='bubble' data-id='"+categoryList[i].id+"' id='category"+categoryList[i].id+"'>"+categoryList[i].name+"</span>");
+                            $("#categoryFilter").append(categoryTag);
+                        }
+
+
+                        $("span[id^='category']").on('click',function(){
+                            var id = $(this).data("id");
+                            if(id == 0){
+                                g_categoryFilter = null;
+                            }else{
+                                g_categoryFilter = id;
+                            }
+                            searchMethod();
+                        });
+
+                        $("#priceFilter").empty();
+                        $("#priceFilter").append($('<span class="bubble" id="defaultOrder">默认排序</span>'));
+                        $("#priceFilter").append($('<span class="bubble" id="lowPriceOrder">低价排序</span>'));
+
+                        $("#defaultOrder").on('click',function(){
+                            g_orderby=null;
+                            searchMethod();
+                        });
+                        $("#lowPriceOrder").on('click',function(){
+                            g_orderby=1;
+                            searchMethod();
+                        });
+
+                        $("#tagsFilter").empty();
+                        var tagTag = $("<span class='bubble' data-id='' id='tags'>全部</span>");
+                        $("#tagsFilter").append(tagTag);
+                        for(var i = 0; i < tagsList.length; i++){
+                            var tagTag = $("<span class='bubble' data-id='"+tagsList[i].tags+"' id='tags"+tagsList[i].tags+"'>"+tagsList[i].tags+"("+tagsList[i].num+")</span>");
+                            $("#tagsFilter").append(tagTag);
+                        }
+                        $("span[id^='tags']").on('click',function(){
+                            var id = $(this).data("id");
+                            if(id == ''){
+                                g_tagFilter = null;
+                            }else{
+                                g_tagFilter = id;
+                            }
+                            searchMethod();
+                        });
+                    }else{
+                        alert("搜索失败，原因为"+data.data.errMsg);
+                    }
+                },
+                error : function(data){
+                    alert("搜索失败，原因为"+data.responseText);
+                }
+            });
+        }
+
+        $('#keyword').on('keypress',function(event){
+            if(event.keyCode == 13) {
+                searchMethod();
+            }
+        });
+
+        $("#resTitle").on("click",function(){
+            $("#extraPadding").toggle(500);
+        });
 
     });
 </script>
