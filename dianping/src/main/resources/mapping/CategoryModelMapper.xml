@@ -142,12 +142,14 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectAll" resultMap="BaseResultMap">
-    <!--
-      新增方法
-    -->
     select
     <include refid="Base_Column_List" />
     from category
     order by sort DESC,id ASC
+  </select>
+  <select id="countAllCategory" resultType="java.lang.Integer">
+    select
+    count(1)
+    from category
   </select>
 </mapper>

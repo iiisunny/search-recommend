@@ -3,6 +3,9 @@ package com.iiisunny.dianping.controller.admin;
 import com.iiisunny.dianping.common.AdminPermission;
 import com.iiisunny.dianping.common.BusinessException;
 import com.iiisunny.dianping.common.EmBusinessError;
+import com.iiisunny.dianping.service.CategoryService;
+import com.iiisunny.dianping.service.SellerService;
+import com.iiisunny.dianping.service.ShopService;
 import com.iiisunny.dianping.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +24,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  * @anthor iiisunny on 2019/11/26
+ * 管理后台
  */
 
 @Controller("/admin/admin")
@@ -39,6 +43,15 @@ public class AdminController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private ShopService shopService;
+
+    @Autowired
+    private SellerService sellerService;
+
     public static final String CURRENT_ADMIN_SESSION = "currentAdminSession";
 
 
@@ -48,6 +61,9 @@ public class AdminController {
     public ModelAndView index(){
         ModelAndView modelAndView = new ModelAndView("/admin/admin/index");
         modelAndView.addObject("userCount",userService.countAllUser());
+        modelAndView.addObject("shopCount",shopService.countAllShop());
+        modelAndView.addObject("categoryCount",categoryService.countAllCategory());
+        modelAndView.addObject("sellerCount",sellerService.countAllSeller());
         modelAndView.addObject("CONTROLLER_NAME","admin");
         modelAndView.addObject("ACTION_NAME","index");
         return modelAndView;

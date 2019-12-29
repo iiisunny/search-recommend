@@ -16,7 +16,7 @@ License: You must have a valid license purchased only from themeforest(the above
 <!-- BEGIN HEAD -->
 <head>
     <meta charset="utf-8"/>
-    <title>运营后台</title>
+    <title>运营平台</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <meta content="" name="description"/>
@@ -42,18 +42,15 @@ License: You must have a valid license purchased only from themeforest(the above
     <link href="/static/assets/admin/layout/css/custom.css" rel="stylesheet" type="text/css"/>
     <link href="/static/assets/admin/pages/css/search.css" rel="stylesheet" type="text/css"/>
     <!-- END THEME STYLES -->
-    <link rel="shortcut icon" href="/static/favicon.ico"/>
-    <style type="text/css">
-        .userAvatat{
-            width:32px;
-            height: 32px;
+    <link rel="shortcut icon" href="/public/favicon.ico"/>
+    <script src="/static/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
+    <style>
+        .errMsg{
+            display: none;
+            color:red;
         }
-
     </style>
-
 </head>
-
-
 
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -69,87 +66,98 @@ License: You must have a valid license purchased only from themeforest(the above
 <body class="page-header-fixed ">
 
 <header th:replace="admin/common/header :: header"></header>
-<div class="clearfix">
-</div>
+
+<div class="clearfix"></div>
 <!-- BEGIN CONTAINER -->
 <div class="page-container">
     <div th:replace="admin/common/sidebar :: sidebar"></div>
     <!-- BEGIN CONTENT -->
     <div class="page-content-wrapper">
         <div class="page-content">
-            <h3 class="page-title">
-                欢迎进入运营后台
-            </h3>
-
-            <div class="row">
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="dashboard-stat blue-madison">
-                        <div class="visual">
-                            <i class="fa fa-comments"></i>
-                        </div>
-                        <div class="details">
-                            <div class="number" th:text="${userCount}">
-
+            <h3 class="page-title">创建门店</h3>
+            <div class="portlet-body form">
+                <!-- BEGIN FORM-->
+                <form action="/admin/shop/create" id="create" class="form-horizontal form-row-seperated" method="post">
+                    <div class="form-body">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">门店icon图片路径<span class="required" aria-required="true"></span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="iconUrl" id="iconUrl" value="" class="form-control" />
                             </div>
-                            <div class="desc">
-                                注册用户数
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">门店名<span class="required" aria-required="true"></span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="name" id="name" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">人均价格<span class="required" aria-required="true"></span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="pricePerMan" id="pricePerMan" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">地址<span class="required" aria-required="true"></span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="address" id="address" value="" class="form-control" />
+                            </div>
+                            <button type="button" id="analyze" class="btn default" style="margin-left:12px;">解析经纬度</button>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">经度<span class="required" aria-required="true"></span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="longitude" id="longitude" value="" readonly class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">纬度<span class="required" aria-required="true"></span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="latitude" id="latitude" value="" readonly class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">品类ID<span class="required" aria-required="true"></span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="categoryId" id="categoryId" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">标签<span class="required" aria-required="true"></span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="tags" id="tags" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">开始营业时间(格式08:00)<span class="required" aria-required="true"></span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="startTime" id="startTime" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">结束营业时间(格式22:00)<span class="required" aria-required="true"></span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="endTime" id="endTime" value="" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">商家ID<span class="required" aria-required="true"></span></label>
+                            <div class="col-md-6">
+                                <input type="text" name="sellerId" id="sellerId" value="" class="form-control" />
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="dashboard-stat red-pink">
-                        <div class="visual">
-                            <i class="fa fa-comments"></i>
-                        </div>
-                        <div class="details">
-                            <div class="number" th:text="${sellerCount}">
-
-                            </div>
-                            <div class="desc">
-                                商户数
-                            </div>
+                    <div class="form-actions fluid nobg">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button type="submit" class="btn yellow-lemon" id="saveButton"><i class="fa fa-check"></i> 创建 </button>
+                            <button type="button" class="btn default" style="margin-left:12px;" onclick = "javascript:history.go(-1)"> 取消 </button>
                         </div>
                     </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="dashboard-stat green-meadow">
-                        <div class="visual">
-                            <i class="fa fa-comments"></i>
-                        </div>
-                        <div class="details">
-                            <div class="number" th:text="${categoryCount}">
-
-                            </div>
-                            <div class="desc">
-                                品类数
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-                    <div class="dashboard-stat yellow-crusta">
-                        <div class="visual">
-                            <i class="fa fa-comments"></i>
-                        </div>
-                        <div class="details">
-                            <div class="number" th:text="${shopCount}">
-
-                            </div>
-                            <div class="desc">
-                                门店数
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
-
-
-        <!-- END PAGE CONTENT-->
     </div>
-</div>
-<!-- END CONTENT -->
+    <!-- END CONTENT -->
 </div>
 <!-- END CONTAINER -->
 <footer th:replace="admin/common/footer :: footer"></footer>
@@ -159,7 +167,6 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="/static/assets/global/plugins/respond.min.js"></script>
 <script src="/static/assets/global/plugins/excanvas.min.js"></script>
 <![endif]-->
-<script src="/static/assets/global/plugins/jquery-1.11.0.min.js" type="text/javascript"></script>
 <script src="/static/assets/global/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>
 <!-- IMPORTANT! Load jquery-ui-1.10.3.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 <script src="/static/assets/global/plugins/jquery-ui/jquery-ui-1.10.3.custom.min.js" type="text/javascript"></script>
@@ -171,45 +178,54 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="/static/assets/global/plugins/uniform/jquery.uniform.min.js" type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
 <!-- BEGIN PAGE LEVEL PLUGINS -->
-<script src="/static/assets/global/plugins/jqvmap/jqvmap/jquery.vmap.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.russia.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.world.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.europe.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.germany.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/jqvmap/jqvmap/maps/jquery.vmap.usa.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/jqvmap/jqvmap/data/jquery.vmap.sampledata.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/flot/jquery.flot.min.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/flot/jquery.flot.resize.min.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/flot/jquery.flot.categories.min.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/jquery.pulsate.min.js" type="text/javascript"></script>
 <script src="/static/assets/global/plugins/bootstrap-daterangepicker/moment.min.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/bootstrap-daterangepicker/daterangepicker.js" type="text/javascript"></script>
-<!-- IMPORTANT! fullcalendar depends on jquery-ui-1.10.3.custom.min.js for drag & drop support -->
-<script src="/static/assets/global/plugins/fullcalendar/fullcalendar/fullcalendar.min.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/jquery-easypiechart/jquery.easypiechart.min.js" type="text/javascript"></script>
-<script src="/static/assets/global/plugins/jquery.sparkline.min.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- BEGIN PAGE LEVEL SCRIPTS -->
 <script src="/static/assets/admin/pages/scripts/sidebarGeneration.js" type="text/javascript"></script>
 <script src="/static/assets/global/scripts/metronic.js" type="text/javascript"></script>
-<script src="/static/assets/global/scripts/pagination.js" type="text/javascript"></script>
 <script src="/static/assets/admin/layout/scripts/layout.js" type="text/javascript"></script>
 <script src="/static/assets/admin/pages/scripts/index.js" type="text/javascript"></script>
 <script src="/static/assets/admin/pages/scripts/tasks.js" type="text/javascript"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
-<script th:inline="javascript">
+<script>
 
 
     jQuery(document).ready(function() {
         Metronic.init(); // init metronic core componets
         Layout.init(); // init layout
         Index.init();
+        getFloat = function (number, n) {
+            n = n ? parseInt(n) : 0;
+            if (n <= 0) return Math.round(number);
+            number = Math.round(number * Math.pow(10, n)) / Math.pow(10, n);
+            return number;
+        };
+
+        $("#analyze").on("click",function(){
+            $.ajax({
+                type : "POST",
+                url : "http://api.map.baidu.com/geocoder/v2/",
+                data:"address="+encodeURIComponent($("#address").val())+"&output=json&ak=9wV8VNAp1qm8FLQzVZ70dcIS6HNwTXBk",
+                dataType:"jsonp",
+                jsonp:"callback",
+                jsonpCallback:"showLocation",
+                success : function(data){
+                    if(data.status == 0){
+                        alert("地址解析成功");
+                        $("#latitude").val(getFloat(data.result.location.lat,6));
+                        $("#longitude").val(getFloat(data.result.location.lng,6));
+                    }else{
+                        alert("获取百度地图失败，原因为"+data);
+                    }
+                },
+                error : function(data){
+                    alert("获取百度地图失败，原因为"+data.responseText);
+                }
+            });
+            return false;
+        });
 
     });
-
-
 </script>
-<!-- END JAVASCRIPTS -->
 </body>
-<!-- END BODY -->
 </html>

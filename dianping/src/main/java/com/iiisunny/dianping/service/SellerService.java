@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * @anthor iiisunny on 2019/12/8
+ * 商家服务
  */
 public interface SellerService {
 
@@ -21,4 +22,7 @@ public interface SellerService {
 
     //设置商家状态
     SellerModel changeStatus(Integer id,Integer disabledFlag) throws BusinessException;
+
+    //统计商家数量
+    Integer countAllSeller();
 }

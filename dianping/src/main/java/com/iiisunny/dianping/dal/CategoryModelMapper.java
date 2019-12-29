@@ -14,6 +14,8 @@ public interface CategoryModelMapper {
 
     List<CategoryModel> selectAll();
 
+    Integer countAllCategory();
+
     CategoryModel selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(CategoryModel record);

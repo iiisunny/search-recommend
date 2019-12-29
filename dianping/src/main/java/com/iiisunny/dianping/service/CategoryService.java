@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * @anthor iiisunny on 2019/12/15
+ * 品类服务
  */
 public interface CategoryService {
 
@@ -18,4 +19,7 @@ public interface CategoryService {
 
     //后台品类查询管理
     List<CategoryModel> selectAll();
+
+    //统计品类数量
+    Integer countAllCategory();
 }

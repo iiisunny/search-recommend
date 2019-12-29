@@ -19,4 +19,6 @@ public interface SellerModelMapper {
     int updateByPrimaryKeySelective(SellerModel record);
 
     int updateByPrimaryKey(SellerModel record);
+
+    Integer countAllSeller();
 }
