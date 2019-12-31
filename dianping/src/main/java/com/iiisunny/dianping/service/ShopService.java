@@ -3,7 +3,9 @@ package com.iiisunny.dianping.service;
 import com.iiisunny.dianping.common.BusinessException;
 import com.iiisunny.dianping.model.ShopModel;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @anthor iiisunny on 2019/12/29
@@ -22,4 +24,13 @@ public interface ShopService {
 
     //商品数量统计
     Integer countAllShop();
+
+    //推荐商品V1.0
+    List<ShopModel> recommend(BigDecimal longitude,BigDecimal latitdue);
+
+    //搜索商品V1.0
+    List<ShopModel> search(BigDecimal longitude,BigDecimal latitdue,String keyword,Integer orderby,Integer categoryId,String tags);
+
+    //根据标签搜索
+    List<Map<String,Object>> searchGroupByTags(String keyword,Integer categoryId,String tags);
 }

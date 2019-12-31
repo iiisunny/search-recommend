@@ -21,6 +21,8 @@ public class ShopModel {
 
     private BigDecimal longitude;
 
+    private Integer distance;
+
     private Integer categoryId;
 
     private CategoryModel categoryModel;
@@ -101,6 +103,14 @@ public class ShopModel {
 
     public void setLongitude(BigDecimal longitude) {
         this.longitude = longitude;
+    }
+
+    public Integer getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Integer distance) {
+        this.distance = distance;
     }
 
     public Integer getCategoryId() {

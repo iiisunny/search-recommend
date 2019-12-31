@@ -13,8 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @anthor iiisunny on 2019/12/29
@@ -84,5 +86,34 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public Integer countAllShop() {
         return shopModelMapper.countAllShop();
+    }
+
+    @Override
+    public List<ShopModel> recommend(BigDecimal longitude, BigDecimal latitdue) {
+        List<ShopModel> shopModelList = shopModelMapper.recommend(longitude,latitdue);
+        //将商品遍历与商家、品类关联（一对二）
+        shopModelList.forEach(shopModel -> {
+            shopModel.setSellerModel(sellerService.get(shopModel.getSellerId()));
+            shopModel.setCategoryModel(categoryService.get(shopModel.getCategoryId()));
+        });
+
+        return shopModelList;
+    }
+
+    @Override
+    public List<ShopModel> search(BigDecimal longitude, BigDecimal latitdue, String keyword, Integer orderby, Integer categoryId, String tags) {
+        List<ShopModel> shopModelList = shopModelMapper.search(longitude,latitdue,keyword,orderby,categoryId,tags);
+        //将商品遍历与商家、品类关联（一对二）
+        shopModelList.forEach(shopModel -> {
+            shopModel.setSellerModel(sellerService.get(shopModel.getSellerId()));
+            shopModel.setCategoryModel(categoryService.get(shopModel.getCategoryId()));
+        });
+
+        return shopModelList;
+    }
+
+    @Override
+    public List<Map<String, Object>> searchGroupByTags(String keyword, Integer categoryId, String tags) {
+        return shopModelMapper.searchGroupByTags(keyword, categoryId, tags);
     }
 }

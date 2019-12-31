@@ -22,6 +22,7 @@
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="seller_id" jdbcType="INTEGER" property="sellerId" />
     <result column="icon_url" jdbcType="VARCHAR" property="iconUrl" />
+    <result column="distance" jdbcType="INTEGER" property="distance" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
@@ -252,5 +253,54 @@
   </select>
   <select id="countAllShop" resultType="java.lang.Integer">
     select count(1) from shop
+  </select>
+  <!--
+    推荐服务V1.0数据操作：
+    1、通过经度纬度计算出门店与当前位置的距离
+    2、将数据以距离+评分混合运算作为排序因子（非距离越近越靠前）
+  -->
+  <select id="recommend" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,ceil(1 + 1000*(2 * 6378.137* ASIN(SQRT(POW(SIN(PI() * (#{latitude} - latitude) / 360), 2) + COS(PI() * #{latitude} / 180)
+    * COS(latitude* PI() / 180) * POW(SIN(PI() * (#{longitude} - longitude) / 360), 2))))) AS distance
+    from shop order by (0.95*1/log10(distance)+ 0.05*remark_score/5)  DESC
+  </select>
+  <!--
+    搜索服务V1.0数据操作：
+    1、通过经度纬度计算出门店与当前位置的距离
+    2、将数据以距离+评分混合运算作为排序因子（非距离越近越靠前）
+    3、使用CONCAT函数模糊查询keyword关键字
+    4、将品类和排序作为筛选因子
+  -->
+  <select id="search" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    ,ceil(1 + 1000*(2 * 6378.137* ASIN(SQRT(POW(SIN(PI() * (#{latitude} - latitude) / 360), 2) + COS(PI() * #{latitude} / 180)
+    * COS(latitude* PI() / 180) * POW(SIN(PI() * (#{longitude} - longitude) / 360), 2))))) AS distance
+    from shop where name like CONCAT('%',#{keyword},'%')
+    <if test="categoryId != null">
+      and category_id = #{categoryId}
+    </if>
+    <if test="tags != null">
+      and tags = #{tags}
+    </if>
+    <if test="orderby == null">
+      order by (0.95*1/log10(distance)+ 0.05*remark_score/5) DESC
+    </if>
+    <if test="orderby == 1">
+      order by price_per_man Asc,id ASC
+    </if>
+  </select>
+  <!-- 根据标签筛选 -->
+  <select id="searchGroupByTags" resultType="java.util.Map">
+    select tags,count(1) as num from shop where name like CONCAT('%',#{keyword},'%')
+    <if test="categoryId != null">
+      and category_id = #{categoryId}
+    </if>
+    <if test="tags != null">
+      and tags = #{tags}
+    </if>
+    group by tags
   </select>
 </mapper>
