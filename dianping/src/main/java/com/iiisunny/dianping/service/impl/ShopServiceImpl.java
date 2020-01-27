@@ -8,6 +8,8 @@ import com.iiisunny.dianping.dal.ShopModelMapper;
 import com.iiisunny.dianping.model.CategoryModel;
 import com.iiisunny.dianping.model.SellerModel;
 import com.iiisunny.dianping.model.ShopModel;
+import com.iiisunny.dianping.recommend.RecommendService;
+import com.iiisunny.dianping.recommend.RecommendSortService;
 import com.iiisunny.dianping.service.CategoryService;
 import com.iiisunny.dianping.service.SellerService;
 import com.iiisunny.dianping.service.ShopService;
@@ -23,6 +25,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @anthor iiisunny on 2019/12/29
@@ -33,6 +36,12 @@ public class ShopServiceImpl implements ShopService {
 
     @Autowired
     private ShopModelMapper shopModelMapper;
+
+    @Autowired
+    private RecommendService recommendService;
+
+    @Autowired
+    private RecommendSortService recommendSortService;
 
     @Autowired
     private RestHighLevelClient highLevelClient;
@@ -99,13 +108,24 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public List<ShopModel> recommend(BigDecimal longitude, BigDecimal latitdue) {
-        List<ShopModel> shopModelList = shopModelMapper.recommend(longitude,latitdue);
-        //将商品遍历与商家、品类关联（一对二）
-        shopModelList.forEach(shopModel -> {
-            shopModel.setSellerModel(sellerService.get(shopModel.getSellerId()));
-            shopModel.setCategoryModel(categoryService.get(shopModel.getCategoryId()));
-        });
+        //召回
+        List<Integer> shopIdList = recommendService.recall(148);
+        //排序
+        shopIdList = recommendSortService.sort(shopIdList,148);
 
+        List<ShopModel> shopModelList =shopIdList.stream().map(id->{
+            ShopModel shopModel = get(id);
+            shopModel.setIconUrl("/static/image/shopcover/xchg.jpg");
+            //shopModel.setDistance(100);
+            return shopModel;
+        }).collect(Collectors.toList());
+
+//        List<ShopModel> shopModelList = shopModelMapper.recommend(longitude,latitdue);
+//        //将商品遍历与商家、品类关联（一对二）
+//        shopModelList.forEach(shopModel -> {
+//            shopModel.setSellerModel(sellerService.get(shopModel.getSellerId()));
+//            shopModel.setCategoryModel(categoryService.get(shopModel.getCategoryId()));
+//        });
         return shopModelList;
     }
 

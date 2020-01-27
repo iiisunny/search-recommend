@@ -36,10 +36,10 @@
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false"></table>
         -->
-        <table tableName="shop"  domainObjectName="ShopModel" enableCountByExample="false"
+        <table tableName="recommend"  domainObjectName="RecommendModel" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
-            <generatedKey column="id" sqlStatement="MySql" identity="true" />
+            <!--<generatedKey column="id" sqlStatement="MySql" identity="true" />-->
         </table>
 
     </context>

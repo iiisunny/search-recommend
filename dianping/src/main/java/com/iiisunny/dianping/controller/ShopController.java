@@ -35,7 +35,7 @@ public class ShopController {
     @Autowired
     private CategoryService categoryService;
 
-    //推荐服务V1.0
+    //推荐服务
     @RequestMapping("/recommend")
     @ResponseBody
     public CommonRes recommend(@RequestParam(name = "longitude")BigDecimal longitude,
@@ -48,7 +48,7 @@ public class ShopController {
         return CommonRes.create(shopModelList);
     }
 
-    //搜索服务V1.0
+    //搜索服务
     @RequestMapping("/search")
     @ResponseBody
     public CommonRes search(@RequestParam(name = "longitude")BigDecimal longitude,
