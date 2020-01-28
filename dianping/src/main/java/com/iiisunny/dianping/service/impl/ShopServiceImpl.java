@@ -114,9 +114,10 @@ public class ShopServiceImpl implements ShopService {
         shopIdList = recommendSortService.sort(shopIdList,148);
 
         List<ShopModel> shopModelList =shopIdList.stream().map(id->{
+            //个人设定，需系统拓展
             ShopModel shopModel = get(id);
-            shopModel.setIconUrl("/static/image/shopcover/xchg.jpg");
-            //shopModel.setDistance(100);
+            shopModel.setIconUrl("/static/image/shopcover/mllm.jpg");
+            shopModel.setDistance(256);
             return shopModel;
         }).collect(Collectors.toList());
 
@@ -187,7 +188,7 @@ public class ShopServiceImpl implements ShopService {
         Map<String,Object> cixingMap = analyzeCategoryKeyword(keyword);
         //召回属于伤筋动骨操作，尽量宽松一些避免返回空，然后使用排序展示给用户，优先使用排序再使用召回
         //影响召回的策略
-        boolean isAffectFilter = false;
+        boolean isAffectFilter = true;
         //影响排序
         boolean isAffectOrder =  true;
 
