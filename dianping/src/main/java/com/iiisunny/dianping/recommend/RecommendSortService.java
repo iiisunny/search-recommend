@@ -23,15 +23,15 @@ public class RecommendSortService {
 
     private LogisticRegressionModel lrModel;
 
-
-    @PostConstruct
-    public void init(){
-        //加载LR模型
-        spark = SparkSession.builder().master("local").appName("DianpingApp").getOrCreate();
-
-        lrModel = LogisticRegressionModel.load("file:///D:\\dianpingtools\\devtool\\data\\lrmode");
-
-    }
+//    //因个人服务器内存大小 没有启动spark服务 仅本地测试
+//    @PostConstruct
+//    public void init(){
+//        //加载LR模型
+//        spark = SparkSession.builder().master("local").appName("DianpingApp").getOrCreate();
+//
+//        lrModel = LogisticRegressionModel.load("file:///D:\\dianpingtools\\devtool\\data\\lrmode");
+//
+//    }
 
     public List<Integer> sort(List<Integer> shopIdList,Integer userId){
         //需要根据lrmode所需要11纬的x，生成特征，然后调用其预测方法

@@ -37,11 +37,11 @@ public class ShopServiceImpl implements ShopService {
     @Autowired
     private ShopModelMapper shopModelMapper;
 
-    @Autowired
-    private RecommendService recommendService;
+//    @Autowired
+//    private RecommendService recommendService;
 
-    @Autowired
-    private RecommendSortService recommendSortService;
+//    @Autowired
+//    private RecommendSortService recommendSortService;
 
     @Autowired
     private RestHighLevelClient highLevelClient;
@@ -108,25 +108,26 @@ public class ShopServiceImpl implements ShopService {
 
     @Override
     public List<ShopModel> recommend(BigDecimal longitude, BigDecimal latitdue) {
-        //召回
-        List<Integer> shopIdList = recommendService.recall(148);
-        //排序
-        shopIdList = recommendSortService.sort(shopIdList,148);
+        //项目因服务器内存大小不太支持spark服务
+//        //召回
+//        List<Integer> shopIdList = recommendService.recall(148);
+//        //排序
+//        shopIdList = recommendSortService.sort(shopIdList,148);
+//
+//        List<ShopModel> shopModelList =shopIdList.stream().map(id->{
+//            //个人设定，需系统拓展
+//            ShopModel shopModel = get(id);
+//            shopModel.setIconUrl("/static/image/shopcover/mllm.jpg");
+//            shopModel.setDistance(256);
+//            return shopModel;
+//        }).collect(Collectors.toList());
 
-        List<ShopModel> shopModelList =shopIdList.stream().map(id->{
-            //个人设定，需系统拓展
-            ShopModel shopModel = get(id);
-            shopModel.setIconUrl("/static/image/shopcover/mllm.jpg");
-            shopModel.setDistance(256);
-            return shopModel;
-        }).collect(Collectors.toList());
-
-//        List<ShopModel> shopModelList = shopModelMapper.recommend(longitude,latitdue);
-//        //将商品遍历与商家、品类关联（一对二）
-//        shopModelList.forEach(shopModel -> {
-//            shopModel.setSellerModel(sellerService.get(shopModel.getSellerId()));
-//            shopModel.setCategoryModel(categoryService.get(shopModel.getCategoryId()));
-//        });
+        List<ShopModel> shopModelList = shopModelMapper.recommend(longitude,latitdue);
+        //将商品遍历与商家、品类关联（一对二）
+        shopModelList.forEach(shopModel -> {
+            shopModel.setSellerModel(sellerService.get(shopModel.getSellerId()));
+            shopModel.setCategoryModel(categoryService.get(shopModel.getCategoryId()));
+        });
         return shopModelList;
     }
 
@@ -188,7 +189,7 @@ public class ShopServiceImpl implements ShopService {
         Map<String,Object> cixingMap = analyzeCategoryKeyword(keyword);
         //召回属于伤筋动骨操作，尽量宽松一些避免返回空，然后使用排序展示给用户，优先使用排序再使用召回
         //影响召回的策略
-        boolean isAffectFilter = true;
+        boolean isAffectFilter = false;
         //影响排序
         boolean isAffectOrder =  true;
 
