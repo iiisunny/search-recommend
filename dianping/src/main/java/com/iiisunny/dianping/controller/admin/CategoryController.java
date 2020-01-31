@@ -39,7 +39,7 @@ public class CategoryController {
         PageHelper.startPage(pageQuery.getPage(),pageQuery.getSize());
         List<CategoryModel> categoryModelList = categoryService.selectAll();
         PageInfo<CategoryModel> categoryModelPageInfo = new PageInfo<>(categoryModelList);
-        ModelAndView modelAndView = new ModelAndView("/admin/category/index.html");
+        ModelAndView modelAndView = new ModelAndView("admin/category/index.html");
         modelAndView.addObject("data",categoryModelPageInfo);
         modelAndView.addObject("CONTROLLER_NAME","category");
         modelAndView.addObject("ACTION_NAME","index");
@@ -50,7 +50,7 @@ public class CategoryController {
     @RequestMapping("/createpage")
     @AdminPermission
     public ModelAndView createPage(){
-        ModelAndView modelAndView = new ModelAndView("/admin/category/create.html");
+        ModelAndView modelAndView = new ModelAndView("admin/category/create.html");
         modelAndView.addObject("CONTROLLER_NAME","category");
         modelAndView.addObject("ACTION_NAME","create");
         return modelAndView;

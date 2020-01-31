@@ -39,7 +39,7 @@ public class SellerController {
         PageHelper.startPage(pageQuery.getPage(),pageQuery.getSize());
         List<SellerModel> sellerModelList = sellerService.selectAll();
         PageInfo<SellerModel> sellerModelPageInfo = new PageInfo<>(sellerModelList);
-        ModelAndView modelAndView = new ModelAndView("/admin/seller/index.html");
+        ModelAndView modelAndView = new ModelAndView("admin/seller/index.html");
         modelAndView.addObject("data",sellerModelPageInfo);
         modelAndView.addObject("CONTROLLER_NAME","seller");
         modelAndView.addObject("ACTION_NAME","index");
@@ -50,7 +50,7 @@ public class SellerController {
     @RequestMapping("/createpage")
     @AdminPermission
     public ModelAndView createPage(){
-        ModelAndView modelAndView = new ModelAndView("/admin/seller/create.html");
+        ModelAndView modelAndView = new ModelAndView("admin/seller/create.html");
         modelAndView.addObject("CONTROLLER_NAME","seller");
         modelAndView.addObject("ACTION_NAME","create");
         return modelAndView;

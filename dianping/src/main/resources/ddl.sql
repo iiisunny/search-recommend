@@ -56,6 +56,11 @@ PRIMARY KEY (`id`)
 )
 ;
 
+CREATE TABLE `dianpingdb`.`recommedn` (
+xxx
+)
+;
+
 
 
 

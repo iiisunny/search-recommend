@@ -59,7 +59,7 @@ public class AdminController {
     @RequestMapping("/index")
     @AdminPermission
     public ModelAndView index(){
-        ModelAndView modelAndView = new ModelAndView("/admin/admin/index");
+        ModelAndView modelAndView = new ModelAndView("admin/admin/index.html");
         modelAndView.addObject("userCount",userService.countAllUser());
         modelAndView.addObject("shopCount",shopService.countAllShop());
         modelAndView.addObject("categoryCount",categoryService.countAllCategory());
@@ -72,7 +72,7 @@ public class AdminController {
     //后台登录页
     @RequestMapping("/loginpage")
     public ModelAndView loginpage(){
-        ModelAndView modelAndView = new ModelAndView("/admin/admin/login");
+        ModelAndView modelAndView = new ModelAndView("admin/admin/login.html");
         return modelAndView;
     }
 

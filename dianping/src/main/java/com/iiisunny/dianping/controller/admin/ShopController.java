@@ -40,7 +40,7 @@ public class ShopController {
         PageHelper.startPage(pageQuery.getPage(), pageQuery.getSize());
         List<ShopModel> shopModelList = shopService.selectAll();
         PageInfo<ShopModel> shopModelPageInfo = new PageInfo<>(shopModelList);
-        ModelAndView modelAndView = new ModelAndView("/admin/shop/index.html");
+        ModelAndView modelAndView = new ModelAndView("admin/shop/index.html");
         modelAndView.addObject("data", shopModelPageInfo);
         modelAndView.addObject("CONTROLLER_NAME", "shop");
         modelAndView.addObject("ACTION_NAME", "index");
@@ -51,7 +51,7 @@ public class ShopController {
     @RequestMapping("/createpage")
     @AdminPermission
     public ModelAndView createPage() {
-        ModelAndView modelAndView = new ModelAndView("/admin/shop/create.html");
+        ModelAndView modelAndView = new ModelAndView("admin/shop/create.html");
         modelAndView.addObject("CONTROLLER_NAME", "shop");
         modelAndView.addObject("ACTION_NAME", "create");
         return modelAndView;
