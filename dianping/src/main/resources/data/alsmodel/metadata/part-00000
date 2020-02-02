@@ -1,0 +1,1 @@
+{"class":"org.apache.spark.ml.recommendation.ALSModel","timestamp":1568472294698,"sparkVersion":"2.4.4","uid":"als_54fea109961c","paramMap":{"userCol":"userId","itemCol":"shopId"},"defaultParamMap":{"coldStartStrategy":"nan","predictionCol":"prediction","userCol":"user","itemCol":"item"},"rank":5}
