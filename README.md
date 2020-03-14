@@ -3,6 +3,9 @@
 ## ✏️项目介绍
 
 - 基于大众点评搜索以及推荐业务，在使用SpringBoot + mybatis完成用户登录、注册、商家入驻以及结合前端模板搭建运营后台门店服务管理功能后，借助ElasticSearch逐步迭代，完成高相关性搜索服务，并基于spark mllib2.4.4构建个性化千人千面推荐系统
+- 演示地址：
+  点评服务：http://115.29.211.152/static/index.html
+  后台运营：http://115.29.211.152/admin/admin/loginpage  admin 123456
 
 ## 🔧环境参数
 
