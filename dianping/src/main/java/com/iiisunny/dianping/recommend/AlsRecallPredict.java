@@ -52,7 +52,7 @@ public class AlsRecallPredict {
                 //新建数据库链接
                 Connection connection = DriverManager.
                         getConnection("jdbc:mysql://cdb-0y63cylc.cd.tencentcdb.com:10065/dianpingdb?" +
-                                "user=root&password=qingtian957&useUnicode=true&characterEncoding=UTF-8");
+                                "user=xxx&password=xxxx&useUnicode=true&characterEncoding=UTF-8");
                 PreparedStatement preparedStatement = connection.
                         prepareStatement("insert into recommend(id,recommend)values(?,?)");
 
